@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="16" fill="#FAF8F5"/>
+  <!-- Central Petal -->
+  <path d="M32 14 C27 24, 27 34, 32 44 C37 34, 37 24, 32 14 Z" stroke="#162847" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Left Petal -->
+  <path d="M29 27 C20 25, 14 32, 17 41 C21 44, 26 43, 30 41" stroke="#162847" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Right Petal -->
+  <path d="M35 27 C44 25, 50 32, 47 41 C43 44, 38 43, 34 41" stroke="#162847" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Stem -->
+  <path d="M32 44 L32 52" stroke="#162847" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Small Star Sparkle above -->
+  <path d="M32 8 L32.8 10.5 L35 11 L32.8 11.5 L32 14 L31.2 11.5 L29 11 L31.2 10.5 Z" fill="#3B6EA8"/>
+</svg>

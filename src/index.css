@@ -1,0 +1,227 @@
+/* ============================================================
+   WebBloomBuilds — Global Design System & Variables
+   Inspired by modern editorial web studios & botanical brand identity
+   ============================================================ */
+
+:root {
+  /* Brand Color Palette */
+  --bg-cream: #FAF8F5;
+  --bg-cream-warm: #F4EFEB;
+  --bg-white: #FFFFFF;
+  --bg-soft-blue: #EEF4FB;
+  --bg-lavender-tint: #E8EFF9;
+  --bg-accent-pill: #E4EDF8;
+
+  /* Navy Hierarchy */
+  --text-navy: #0F1E36;
+  --text-navy-secondary: #2C3E5A;
+  --text-body: #4F6179;
+  --text-muted: #7E8EA5;
+  --text-light: #A3B1C5;
+
+  /* WebBloom Blues */
+  --blue-primary: #3D6DA6;
+  --blue-hover: #315886;
+  --blue-active: #254467;
+  --blue-light: #EBF2FA;
+  --blue-border: #D1E1F3;
+  --blue-glow: rgba(61, 109, 166, 0.2);
+
+  /* Subtle Borders & Dividers */
+  --border-subtle: #E8ECF2;
+  --border-cream: #EAE4DA;
+  --border-focus: #3D6DA6;
+
+  /* Typography Families */
+  --font-serif: 'Playfair Display', 'Fraunces', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-handwriting: 'Caveat', cursive;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(15, 30, 54, 0.04);
+  --shadow-md: 0 8px 24px rgba(15, 30, 54, 0.06);
+  --shadow-lg: 0 16px 40px rgba(15, 30, 54, 0.08);
+  --shadow-btn: 0 4px 16px rgba(61, 109, 166, 0.28);
+  --shadow-btn-hover: 0 6px 20px rgba(61, 109, 166, 0.38);
+
+  /* Border Radii */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-medium: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Reset & Smooth Scroll */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-cream);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-navy);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+p {
+  color: var(--text-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
+}
+
+/* Reusable Section Headers */
+.section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 56px;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue-primary);
+  background: var(--bg-soft-blue);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 16px;
+  border: 1px solid var(--blue-border);
+}
+
+.section-title {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  color: var(--text-navy);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.section-subtitle {
+  font-size: 1.0625rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+/* Reusable Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--blue-primary);
+  color: #FFFFFF !important;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-btn);
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background-color: var(--blue-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-hover);
+}
+
+.btn-primary:active {
+  background-color: var(--blue-active);
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: var(--text-navy) !important;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-subtle);
+  background-color: var(--bg-white);
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  border-color: var(--blue-primary);
+  color: var(--blue-primary) !important;
+  background-color: var(--bg-soft-blue);
+  transform: translateY(-2px);
+}
+
+/* Botanical Background Shapes */
+.botanical-glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.6;
+  z-index: 0;
+}
