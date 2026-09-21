@@ -52,28 +52,15 @@ export const reviews = [
 
     // ===== REVIEW SCREENSHOT =====
     // Put screenshot in src/assets/reviews/ and add path below (e.g. '/assets/reviews/padmini-review.png')
-    image: '',
+    image: 'src/assets/reviews/Padmini nursery review.jpeg',
 
     // ===== VISIBILITY =====
     visible: true,
   },
+
 
   {
     id: 2,
-
-    // ===== CLIENT INFORMATION =====
-    clientName: '',
-    businessName: 'Bolster Math Tutoring',
-
-    // ===== REVIEW SCREENSHOT =====
-    image: '',
-
-    // ===== VISIBILITY =====
-    visible: true,
-  },
-
-  {
-    id: 3,
 
     // ===== CLIENT INFORMATION =====
     clientName: '',
