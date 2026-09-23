@@ -29,12 +29,14 @@ export function BloomFlower({
     >
       {/* 4-point diamond sparkle star at the top */}
       <path
+        className="bloom-part bloom-sparkle"
         d="M50 5 C50 12.5, 52.8 15.5, 60.5 15.5 C52.8 15.5, 50 18.5, 50 26 C50 18.5, 47.2 15.5, 39.5 15.5 C47.2 15.5, 50 12.5, 50 5 Z"
         fill={color}
       />
 
       {/* Center vertical seam between inner petals */}
       <line
+        className="bloom-part bloom-seam"
         x1="50"
         y1="56"
         x2="50"
@@ -46,6 +48,7 @@ export function BloomFlower({
 
       {/* Left Inner Petal */}
       <path
+        className="bloom-part bloom-petal-left-in"
         d="M50 56 C50 42, 44 31, 33 28 C28 40, 36 60, 50 73"
         stroke={color}
         strokeWidth="4.2"
@@ -56,6 +59,7 @@ export function BloomFlower({
 
       {/* Right Inner Petal */}
       <path
+        className="bloom-part bloom-petal-right-in"
         d="M50 56 C50 42, 56 31, 67 28 C72 40, 64 60, 50 73"
         stroke={color}
         strokeWidth="4.2"
@@ -66,6 +70,7 @@ export function BloomFlower({
 
       {/* Outer Left Petal */}
       <path
+        className="bloom-part bloom-petal-left-out"
         d="M31 46 C21 44, 13 45, 14 49 C18 58, 35 69, 50 73"
         stroke={color}
         strokeWidth="4.2"
@@ -76,6 +81,7 @@ export function BloomFlower({
 
       {/* Outer Right Petal */}
       <path
+        className="bloom-part bloom-petal-right-out"
         d="M69 46 C79 44, 87 45, 86 49 C82 58, 65 69, 50 73"
         stroke={color}
         strokeWidth="4.2"
@@ -86,6 +92,7 @@ export function BloomFlower({
 
       {/* Base Vertical Stem */}
       <line
+        className="bloom-part bloom-stem"
         x1="50"
         y1="73"
         x2="50"

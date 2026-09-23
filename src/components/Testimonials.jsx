@@ -2,9 +2,107 @@ import React, { useState, useEffect } from 'react';
 import { Image, MessageSquareHeart, X, ZoomIn } from 'lucide-react';
 import { reviews } from '../data/testimonialsData';
 import { resolveAsset } from '../utils/resolveAsset';
+import { useScrollRevealItem } from '../utils/useScrollReveal';
+
+function ReviewCard({ item, index, onSelectImage }) {
+  const [cardRef, isInViewport] = useScrollRevealItem({
+    threshold: 0.08,
+    rootMargin: '0px 0px -30px 0px',
+  });
+
+  const resolvedImg = resolveAsset(item.image);
+  const desktopDelay = `${(index % 3) * 110}ms`;
+
+  return (
+    <div
+      ref={cardRef}
+      className={`review-screenshot-card reveal-init ${
+        isInViewport ? 'reveal-active' : ''
+      }`}
+      style={{
+        '--review-delay': desktopDelay,
+        transitionDelay: isInViewport ? 'var(--review-delay, 0ms)' : '0ms',
+      }}
+    >
+      {/* Review Screenshot or Clearly Marked Placeholder */}
+      {resolvedImg ? (
+        <div
+          className="review-screenshot-frame"
+          style={{ cursor: 'pointer', position: 'relative' }}
+          onClick={() =>
+            onSelectImage({
+              src: resolvedImg,
+              title: item.clientName || item.businessName || 'Client Review',
+            })
+          }
+          title="Click to expand screenshot"
+        >
+          <img
+            src={resolvedImg}
+            alt={
+              item.clientName
+                ? `Client review from ${item.clientName}`
+                : item.businessName
+                ? `Client review from ${item.businessName}`
+                : 'Genuine client review screenshot'
+            }
+            className="review-screenshot-img"
+            loading="lazy"
+          />
+          <div
+            className="review-screenshot-zoom-hint"
+            style={{
+              position: 'absolute',
+              bottom: '10px',
+              right: '10px',
+              background: 'rgba(0, 0, 0, 0.65)',
+              backdropFilter: 'blur(4px)',
+              padding: '4px 8px',
+              borderRadius: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '0.75rem',
+              color: '#e6edf3',
+            }}
+          >
+            <ZoomIn size={12} />
+            <span>Expand</span>
+          </div>
+        </div>
+      ) : (
+        <div className="review-placeholder-frame">
+          <div className="placeholder-icon-wrap">
+            <Image size={28} className="placeholder-svg-icon" />
+          </div>
+          <p className="placeholder-notice-text">
+            Client review screenshot will be added here.
+          </p>
+          <span className="placeholder-helper-hint">
+            Put screenshot in <code>src/assets/reviews/</code> & link in <code>src/data/testimonialsData.js</code>
+          </span>
+        </div>
+      )}
+
+      {/* Optional Client / Business Attribution */}
+      {(item.clientName || item.businessName) && (
+        <div className="review-card-footer">
+          {item.clientName && (
+            <span className="review-client-name">{item.clientName}</span>
+          )}
+          {item.businessName && (
+            <span className="review-business-name">{item.businessName}</span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Testimonials() {
   const [activeLightboxImage, setActiveLightboxImage] = useState(null);
+  const [headerRef, isHeaderVisible] = useScrollRevealItem({ threshold: 0.15 });
+  const [noteRef, isNoteVisible] = useScrollRevealItem({ threshold: 0.2 });
 
   // Lock body scroll when lightbox is open
   useEffect(() => {
@@ -30,7 +128,10 @@ export default function Testimonials() {
     <section id="reviews" className="section-padding testimonials-section">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header">
+        <div
+          ref={headerRef}
+          className={`section-header reveal-init ${isHeaderVisible ? 'reveal-active' : ''}`}
+        >
           <div className="section-tag">
             <MessageSquareHeart size={14} />
             <span>CLIENT EXPERIENCES</span>
@@ -43,89 +144,21 @@ export default function Testimonials() {
 
         {/* Review Screenshot Gallery Grid */}
         <div className="reviews-gallery-grid">
-          {visibleReviews.map((item) => {
-            const resolvedImg = resolveAsset(item.image);
-
-            return (
-              <div key={item.id} className="review-screenshot-card">
-                {/* Review Screenshot or Clearly Marked Placeholder */}
-                {resolvedImg ? (
-                  <div
-                    className="review-screenshot-frame"
-                    style={{ cursor: 'pointer', position: 'relative' }}
-                    onClick={() =>
-                      setActiveLightboxImage({
-                        src: resolvedImg,
-                        title: item.clientName || item.businessName || 'Client Review',
-                      })
-                    }
-                    title="Click to expand screenshot"
-                  >
-                    <img
-                      src={resolvedImg}
-                      alt={
-                        item.clientName
-                          ? `Client review from ${item.clientName}`
-                          : item.businessName
-                          ? `Client review from ${item.businessName}`
-                          : 'Genuine client review screenshot'
-                      }
-                      className="review-screenshot-img"
-                      loading="lazy"
-                    />
-                    <div
-                      className="review-screenshot-zoom-hint"
-                      style={{
-                        position: 'absolute',
-                        bottom: '10px',
-                        right: '10px',
-                        background: 'rgba(0, 0, 0, 0.65)',
-                        backdropFilter: 'blur(4px)',
-                        padding: '4px 8px',
-                        borderRadius: '20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.75rem',
-                        color: '#e6edf3',
-                      }}
-                    >
-                      <ZoomIn size={12} />
-                      <span>Expand</span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="review-placeholder-frame">
-                    <div className="placeholder-icon-wrap">
-                      <Image size={28} className="placeholder-svg-icon" />
-                    </div>
-                    <p className="placeholder-notice-text">
-                      Client review screenshot will be added here.
-                    </p>
-                    <span className="placeholder-helper-hint">
-                      Put screenshot in <code>src/assets/reviews/</code> & link in <code>src/data/testimonialsData.js</code>
-                    </span>
-                  </div>
-                )}
-
-                {/* Optional Client / Business Attribution */}
-                {(item.clientName || item.businessName) && (
-                  <div className="review-card-footer">
-                    {item.clientName && (
-                      <span className="review-client-name">{item.clientName}</span>
-                    )}
-                    {item.businessName && (
-                      <span className="review-business-name">{item.businessName}</span>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {visibleReviews.map((item, index) => (
+            <ReviewCard
+              key={item.id}
+              item={item}
+              index={index}
+              onSelectImage={(imgData) => setActiveLightboxImage(imgData)}
+            />
+          ))}
         </div>
 
         {/* Transparent Note for Prospective Clients */}
-        <div className="reviews-trust-note">
+        <div
+          ref={noteRef}
+          className={`reviews-trust-note reveal-init ${isNoteVisible ? 'reveal-active' : ''}`}
+        >
           <p>
             ✨ <em>Transparent Collaboration:</em> We only feature genuine, unedited client messages and reviews.
           </p>

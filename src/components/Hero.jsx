@@ -11,7 +11,7 @@ import {
   Globe,
   TrendingUp,
 } from 'lucide-react';
-import { BotanicalIcon } from './BrandLogo';
+import { BotanicalIcon, BloomFlower } from './BrandLogo';
 
 // ─── Typing animation config ──────────────────────────────────────────────────
 // The heading: "Turn Your Idea \n Into a Website \n That Works."
@@ -77,6 +77,8 @@ export default function Hero({ onOpenContact }) {
   // Scroll-reveal for the features bar
   const featuresRef = useRef(null);
   const featuresVisible = useScrollReveal(featuresRef, 0.1);
+
+  const heroRef = useRef(null);
 
   useEffect(() => {
     if (prefersReduced.current) {
@@ -189,7 +191,7 @@ export default function Hero({ onOpenContact }) {
   };
 
   return (
-    <section id="home" className="hero-section">
+    <section id="home" className="hero-section" ref={heroRef}>
       {/* Decorative Botanical Ambient Tints */}
       <div className="hero-decor-blob blob-top-left" aria-hidden="true" />
       <div className="hero-decor-blob blob-bottom-right" aria-hidden="true" />
@@ -234,10 +236,20 @@ export default function Hero({ onOpenContact }) {
               <span>WEBSITES • DESIGN • GROWTH</span>
             </div>
 
-            {/* Main Heading — typing animation */}
-            <h1 className="hero-title hero-title-anim" aria-label="Turn Your Idea Into a Website That Works.">
-              {renderHeading()}
-            </h1>
+            {/* Main Heading Area with Rotating Decorative Flower */}
+            <div className="hero-heading-wrapper">
+              <h1 className="hero-title hero-title-anim" aria-label="Turn Your Idea Into a Website That Works.">
+                {renderHeading()}
+              </h1>
+
+              {/* Decorative Petal-by-Petal Blooming WebBloom Flower beside the heading */}
+              <div className="hero-heading-flower" aria-hidden="true">
+                <div className="hero-heading-flower-glow" />
+                <div className="hero-heading-flower-bloom">
+                  <BloomFlower size="100%" color="#3D6DA6" className="hero-heading-flower-svg" />
+                </div>
+              </div>
+            </div>
 
             {/* Supporting Copy */}
             <p className={`hero-description hero-desc-anim ${descIn ? 'hero-el-in' : ''}`}>

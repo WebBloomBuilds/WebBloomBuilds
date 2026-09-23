@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle, ArrowRight } from 'lucide-react';
+import { useScrollRevealItem } from '../utils/useScrollReveal';
 
 const faqData = [
   {
@@ -138,8 +139,55 @@ const faqData = [
   },
 ];
 
+function FAQAccordionItem({ item, index, isOpen, onToggle }) {
+  const [itemRef, isInViewport] = useScrollRevealItem({
+    threshold: 0.08,
+    rootMargin: '0px 0px -30px 0px',
+  });
+
+  return (
+    <div
+      ref={itemRef}
+      className={`faq-item reveal-init ${isInViewport ? 'reveal-active' : ''} ${
+        isOpen ? 'faq-item-open' : ''
+      }`}
+    >
+      <button
+        type="button"
+        className="faq-question-btn"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls={`faq-answer-${item.id}`}
+      >
+        <span className="faq-question-text">{item.question}</span>
+        <span className="faq-icon-pill">
+          <ChevronDown
+            size={18}
+            className={`faq-chevron ${isOpen ? 'rotate-180' : ''}`}
+          />
+        </span>
+      </button>
+
+      <div
+        id={`faq-answer-${item.id}`}
+        className="faq-answer-wrapper"
+        role="region"
+        aria-hidden={!isOpen}
+      >
+        <div className="faq-answer-inner">
+          <div className="faq-answer-content">
+            <p>{item.answer}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function FAQ({ onOpenContact }) {
   const [openIndex, setOpenIndex] = useState(0); // First item open by default
+  const [headerRef, isHeaderVisible] = useScrollRevealItem({ threshold: 0.15 });
+  const [footerRef, isFooterVisible] = useScrollRevealItem({ threshold: 0.15 });
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? -1 : index);
@@ -149,7 +197,10 @@ export default function FAQ({ onOpenContact }) {
     <section id="faq" className="section-padding faq-section">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header">
+        <div
+          ref={headerRef}
+          className={`section-header reveal-init ${isHeaderVisible ? 'reveal-active' : ''}`}
+        >
           <div className="section-tag">
             <HelpCircle size={14} />
             <span>FREQUENTLY ASKED QUESTIONS</span>
@@ -162,45 +213,22 @@ export default function FAQ({ onOpenContact }) {
 
         {/* FAQ Accordion List */}
         <div className="faq-accordion-wrap">
-          {faqData.map((item, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div
-                key={item.id}
-                className={`faq-item ${isOpen ? 'faq-item-open' : ''}`}
-              >
-                <button
-                  type="button"
-                  className="faq-question-btn"
-                  onClick={() => toggleFAQ(index)}
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${item.id}`}
-                >
-                  <span className="faq-question-text">{item.question}</span>
-                  <span className="faq-icon-pill">
-                    <ChevronDown
-                      size={18}
-                      className={`faq-chevron ${isOpen ? 'rotate-180' : ''}`}
-                    />
-                  </span>
-                </button>
-
-                {isOpen && (
-                  <div
-                    id={`faq-answer-${item.id}`}
-                    className="faq-answer-content"
-                    role="region"
-                  >
-                    <p>{item.answer}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {faqData.map((item, index) => (
+            <FAQAccordionItem
+              key={item.id}
+              item={item}
+              index={index}
+              isOpen={openIndex === index}
+              onToggle={() => toggleFAQ(index)}
+            />
+          ))}
         </div>
 
         {/* Additional questions lead-in */}
-        <div className="faq-footer-card">
+        <div
+          ref={footerRef}
+          className={`faq-footer-card reveal-init ${isFooterVisible ? 'reveal-active' : ''}`}
+        >
           <div className="faq-footer-text">
             <h4>Still have a question?</h4>
             <p>

@@ -14,6 +14,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { InstagramIcon } from './SocialIcons';
+import { useScrollRevealItem } from '../utils/useScrollReveal';
 
 // 7 exact service options with clean labels & corresponding package scopes
 const SERVICES_OPTIONS = [
@@ -124,6 +125,9 @@ export default function Contact({ isModal = false, onClose, selectedService }) {
   const [submitted, setSubmitted] = useState(false);
   const [generatedMessage, setGeneratedMessage] = useState('');
   const [copied, setCopied] = useState(false);
+
+  const [bannerRef, isBannerVisible] = useScrollRevealItem({ threshold: 0.1 });
+  const isRevealed = isModal || isBannerVisible;
 
   // Sync when selectedService prop changes from CTAs
   useEffect(() => {
@@ -356,13 +360,16 @@ export default function Contact({ isModal = false, onClose, selectedService }) {
     >
       <div className="container">
         {/* Outer Banner Card */}
-        <div className="contact-banner-card">
+        <div
+          ref={bannerRef}
+          className={`contact-banner-card reveal-init ${isRevealed ? 'reveal-active' : ''}`}
+        >
           {/* Subtle decorative glow */}
           <div className="contact-decor-glow" aria-hidden="true" />
 
           <div className="contact-grid">
             {/* Left Info Column */}
-            <div className="contact-info-col">
+            <div className="contact-info-col reveal-init">
               <div className="section-tag" style={{ background: '#FFFFFF' }}>
                 <Sparkles size={14} />
                 <span>LET'S CONNECT</span>
@@ -421,7 +428,7 @@ export default function Contact({ isModal = false, onClose, selectedService }) {
             </div>
 
             {/* Right Form Column */}
-            <div className="contact-form-col">
+            <div className="contact-form-col reveal-init">
               <div className="contact-form-container">
                 {submitted ? (
                   /* ========================================================

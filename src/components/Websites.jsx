@@ -3,6 +3,8 @@ import { ArrowUpRight, Sparkles, X, ShieldCheck, Eye, ExternalLink, CheckCircle2
 import { projects } from '../data/projectsData';
 import { resolveAsset } from '../utils/resolveAsset';
 
+import { useScrollRevealItem } from '../utils/useScrollReveal';
+
 // Helper to determine tier tag styling
 const getTierType = (tier = '') => {
   const lower = tier.toLowerCase();
@@ -14,7 +16,7 @@ const getTierType = (tier = '') => {
 
 /**
  * Individual Project Card with independent viewport observation
- * for continuous, looping mobile orbit animation.
+ * for smooth scroll-triggered reveal.
  */
 function ProjectCard({
   project,
@@ -22,28 +24,13 @@ function ProjectCard({
   isSectionVisible,
   onSelectProject,
 }) {
-  const cardRef = useRef(null);
-  const [isInViewport, setIsInViewport] = useState(false);
+  const [cardRef, isInViewport] = useScrollRevealItem({
+    threshold: 0.05,
+    rootMargin: '60px 0px 60px 0px',
+    once: false,
+  });
 
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInViewport(entry.isIntersecting);
-      },
-      {
-        threshold: 0.05,
-        rootMargin: '60px 0px 60px 0px',
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const staggerDelay = `${index * 120}ms`;
+  const staggerDelay = `${(index % 3) * 120}ms`;
   const tierType = project.tierType || getTierType(project.tier);
   const liveUrl = project.liveUrl || project.websiteUrl || '#';
   const primaryScreenshot = resolveAsset(
@@ -175,7 +162,7 @@ export default function Websites() {
           observer.disconnect();
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.08 }
     );
 
     if (sectionRef.current) {

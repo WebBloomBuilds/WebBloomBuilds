@@ -44,6 +44,47 @@ function App() {
     }
   };
 
+  // Universal IntersectionObserver for scroll-reveal elements
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.reveal-init').forEach((el) => {
+        el.classList.add('reveal-active');
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px',
+      }
+    );
+
+    const observeElements = () => {
+      document.querySelectorAll('.reveal-init:not(.reveal-active)').forEach((el) => {
+        observer.observe(el);
+      });
+    };
+
+    observeElements();
+    const t = setTimeout(observeElements, 250);
+
+    return () => {
+      clearTimeout(t);
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <div className="app-wrapper">
       {/* Fixed/Sticky Navigation */}

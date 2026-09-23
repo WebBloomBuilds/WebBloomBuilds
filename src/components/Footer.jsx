@@ -2,8 +2,12 @@ import React from 'react';
 import BrandLogo from './BrandLogo';
 import { ArrowUp, Mail, Heart } from 'lucide-react';
 import { InstagramIcon } from './SocialIcons';
+import { useScrollRevealItem } from '../utils/useScrollReveal';
 
 export default function Footer() {
+  const [gridRef, isGridVisible] = useScrollRevealItem({ threshold: 0.1 });
+  const [bottomRef, isBottomVisible] = useScrollRevealItem({ threshold: 0.1 });
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -12,7 +16,10 @@ export default function Footer() {
     <footer className="footer-section">
       <div className="container footer-container">
         {/* Top Row: Brand & Links */}
-        <div className="footer-top-grid">
+        <div
+          ref={gridRef}
+          className={`footer-top-grid reveal-init ${isGridVisible ? 'reveal-active' : ''}`}
+        >
           {/* Brand Col */}
           <div className="footer-brand-col">
             <BrandLogo showTagline={true} />
@@ -142,7 +149,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar: Copyright */}
-        <div className="footer-bottom-bar">
+        <div
+          ref={bottomRef}
+          className={`footer-bottom-bar reveal-init ${isBottomVisible ? 'reveal-active' : ''}`}
+        >
           <p className="footer-copyright">
             © 2026 WebBloomBuilds. All rights reserved.
           </p>
